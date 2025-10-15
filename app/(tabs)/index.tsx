@@ -41,6 +41,7 @@ export default function Index() {
 
   const onReset = () => {
     setShowAppOptions(false);
+    setSelectedImage(undefined)
   };
 
   return (
@@ -51,7 +52,7 @@ export default function Index() {
       {showAppOptions ? (
         <View style={styles.footerContainer}>
           <Button theme="primary" label='Use this photo' onPress={pickImageAsync} />
-          <Button label='Choose another photo' onPress={() => setShowAppOptions(false)} />
+          <Button label='Choose another photo' onPress={onReset} />
         </View>
       ) : (
         <View style={styles.optionsContainer}>
