@@ -6,12 +6,14 @@ import Button from "@/components/Button";
 import CircleButton from '@/components/CircleButton';
 import IconButton from '@/components/IconButton';
 import ImageViewer from '@/components/ImageViewer';
+import UrlImagePicker from '@/components/UrlImagePicker';
 
 const PlaceholderImage = require('@/assets/images/background-image.png');
 
 export default function Index() {
   const [selectedImage, setSelectedImage] = useState<string | undefined>(undefined);
   const [showAppOptions, setShowAppOptions] = useState<boolean>(false);
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 
   const pickImageAsync = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -39,10 +41,24 @@ export default function Index() {
     }
   }
 
+  const handleUrlPicked = (uri: string) => {
+    setSelectedImage(uri);
+    setShowAppOptions(true);
+    setIsModalVisible(false);
+  };
+
   const onReset = () => {
     setShowAppOptions(false);
     setSelectedImage(undefined)
   };
+
+  const onModalClose = () => {
+    setIsModalVisible(false)
+  }
+
+  const onAddurl = () => {
+    setIsModalVisible(true)
+  }
 
   return (
     <View style={styles.container}>
@@ -57,12 +73,15 @@ export default function Index() {
       ) : (
         <View style={styles.optionsContainer}>
           <View style={styles.optionsRow}>
-            <IconButton icon='link' label='Url' onPress={onReset} />
+            <IconButton icon='link' label='Url' onPress={onAddurl} />
             <CircleButton onPress={pickImageAsync} />
             <IconButton icon='camera-alt' label='Photo' onPress={takeImageAsync} />
           </View>
         </View>
       )}
+      <UrlImagePicker isVisible={isModalVisible} onClose={onModalClose} onConfirm={handleUrlPicked}>
+        {/*  */}
+      </UrlImagePicker>
     </View>
   );
 }
