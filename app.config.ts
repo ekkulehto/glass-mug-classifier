@@ -1,12 +1,14 @@
-import 'dotenv/config'
-import appJson from './app.json'
+import type { ConfigContext, ExpoConfig } from '@expo/config';
+import 'dotenv/config';
+import appJson from './app.json';
 
-export default {
-    ...(appJson as any).expo,
-    extra: {
-        ...(appJson as any).expo?.extra,
-        PREDICTION_KEY: process.env.PREDICTION_KEY,
-        CUSTOM_VISION_BASE_URL: process.env.CUSTOM_VISION_BASE_URL,
-        CUSTOM_VISION_BASE_IMAGE: process.env.CUSTOM_VISION_BASE_IMAGE,
-    }
-}
+export default ({ config }: ConfigContext): ExpoConfig => ({
+  ...config,
+  ...((appJson as any).expo || {}),
+  extra: {
+    ...((appJson as any).expo?.extra || {}),
+    PREDICTION_KEY: process.env.PREDICTION_KEY,
+    CUSTOM_VISION_BASE_URL: process.env.CUSTOM_VISION_BASE_URL,
+    CUSTOM_VISION_BASE_IMAGE: process.env.CUSTOM_VISION_BASE_IMAGE,
+  },
+});
