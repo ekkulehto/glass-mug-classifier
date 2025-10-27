@@ -17,7 +17,7 @@ type SourceKind = 'none' | 'url' | 'file';
 export default function Index() {
   const [selectedImage, setSelectedImage] = useState<string | undefined>(undefined);
   const [showAppOptions, setShowAppOptions] = useState<boolean>(false);
-  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [isUrlImagePickerVisible, setisUrlImagePickerVisible] = useState<boolean>(false);
   const [sourceType, setSourceType] = useState<SourceKind>('none');
   const [preds, setPreds] = useState<CvPrediction[] | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
@@ -74,7 +74,7 @@ export default function Index() {
     setSelectedImage(uri);
     setSourceType('url');
     setShowAppOptions(true);
-    setIsModalVisible(false);
+    setisUrlImagePickerVisible(false);
   };
 
   const onReset = () => {
@@ -85,11 +85,11 @@ export default function Index() {
   };
 
   const onModalClose = () => {
-    setIsModalVisible(false)
+    setisUrlImagePickerVisible(false)
   }
 
   const onAddurl = () => {
-    setIsModalVisible(true)
+    setisUrlImagePickerVisible(true)
   }
 
   return (
@@ -126,7 +126,7 @@ export default function Index() {
           </View>
         </View>
       )}
-      <UrlImagePicker isVisible={isModalVisible} onClose={onModalClose} onConfirm={handleUrlPicked} />
+      <UrlImagePicker isVisible={isUrlImagePickerVisible} onClose={onModalClose} onConfirm={handleUrlPicked} />
     </View>
   );
 }
