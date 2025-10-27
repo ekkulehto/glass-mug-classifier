@@ -1,6 +1,6 @@
 import * as ImagePicker from 'expo-image-picker';
 import { useState } from "react";
-import { Alert, StyleSheet, View } from "react-native";
+import { ActivityIndicator, Alert, StyleSheet, Text, View } from "react-native";
 
 import { predictFromFile, predictFromUrl, type CvPrediction } from '@/api/customVision';
 import Button from "@/components/Button";
@@ -96,20 +96,31 @@ export default function Index() {
     <View style={styles.container}>
       <View style={styles.ImageContainer}>
         <ImageViewer imgSource={PlaceholderImage} selectedImage={selectedImage} />
-        <Predictions data={preds} />
+        {loading ? (
+          <View style={styles.loadingCard}>
+            <ActivityIndicator size={'large'} color={'#ffd33d'} />
+            <Text style={styles.loadingText}>Loading...</Text>
+          </View>
+        ) : (
+          preds && <Predictions data={preds} />
+        )
+        }
       </View>
       {showAppOptions ? (
         <View style={styles.footerContainer}>
-          {preds === null && (
+          {preds === null && !loading && (
             <Button theme="primary" label='Use this photo' onPress={useThisPhoto} />
           )
           }
-          <Button label='Choose another photo' onPress={onReset} />
+          {!loading && (
+            <Button label='Choose another photo' onPress={onReset} />
+          )
+          }
         </View>
       ) : (
         <View style={styles.optionsContainer}>
           <View style={styles.optionsRow}>
-            <IconButton icon='link' label={loading ? '...' : 'Url'} onPress={onAddurl} />
+            <IconButton icon='link' label='Url' onPress={onAddurl} />
             <CircleButton onPress={pickImageAsync} />
             <IconButton icon='camera-alt' label='Photo' onPress={takeImageAsync} />
           </View>
@@ -141,4 +152,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
   },
+  loadingCard: {
+    alignSelf: 'center',
+    minWidth: 260,
+    padding: 12,
+    borderRadius: 10,
+    marginTop: 20,
+  },
+  loadingText: {
+    color: '#fff',
+    fontWeight: '700',
+    fontSize: 16,
+    textAlign: 'center',
+    marginTop: 10,
+  }
 })
