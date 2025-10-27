@@ -1,7 +1,7 @@
 import IconButton from '@/components/IconButton';
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { PropsWithChildren, useState } from "react";
-import { Image, Modal, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import { Image, KeyboardAvoidingView, Modal, Platform, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 
 
 type Props = PropsWithChildren<{
@@ -30,7 +30,7 @@ export default function UrlImagePicker({ isVisible, onClose, onConfirm }: Props)
     };
 
     return (
-        <View>
+        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={{ flex: 1 }}>
             <Modal animationType="slide" transparent={true} visible={isVisible}>
                 <View style={styles.modalContent}>
                     <View style={styles.titleContainer}>
@@ -54,7 +54,7 @@ export default function UrlImagePicker({ isVisible, onClose, onConfirm }: Props)
                     </View>
                 </View>
             </Modal>
-        </View>
+        </KeyboardAvoidingView>
     );
 }
 
