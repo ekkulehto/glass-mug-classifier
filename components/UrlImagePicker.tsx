@@ -29,6 +29,8 @@ export default function UrlImagePicker({ isVisible, onClose, onConfirm }: Props)
         onClose();
     };
 
+    if (!isVisible) return null;
+    
     return (
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={{ flex: 1 }}>
             <Modal animationType="slide" transparent={true} visible={isVisible}>
