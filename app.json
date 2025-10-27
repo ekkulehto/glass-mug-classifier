@@ -40,6 +40,20 @@
             "backgroundColor": "#000000"
           }
         }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "gradleProperties": {
+              "org.gradle.jvmargs": "-Xmx4g -XX:MaxMetaspaceSize=1g -Dfile.encoding=UTF-8 -XX:+UseParallelGC",
+              "kotlin.daemon.jvmargs": "-Xmx2g -XX:MaxMetaspaceSize=1g",
+              "android.experimental.lint.maxHeapSize": "2048m",
+              "org.gradle.parallel": "true",
+              "org.gradle.configuration-cache": "true"
+            }
+          }
+        }
       ]
     ],
     "experiments": {
@@ -47,7 +61,7 @@
       "reactCompiler": true
     },
     "extra": {
-      "eas" : {
+      "eas": {
         "projectId": "71d5fd32-d9cc-44a5-bb52-7d99cd38a32f"
       }
     }
