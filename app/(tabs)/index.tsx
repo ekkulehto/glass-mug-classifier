@@ -20,7 +20,7 @@ export default function Index() {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [sourceType, setSourceType] = useState<SourceKind>('none');
   const [preds, setPreds] = useState<CvPrediction[] | null>(null)
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState<boolean>(false)
 
   const useThisPhoto = async () => {
     if (!selectedImage || sourceType === 'none') {
@@ -100,7 +100,10 @@ export default function Index() {
       </View>
       {showAppOptions ? (
         <View style={styles.footerContainer}>
-          <Button theme="primary" label='Use this photo' onPress={useThisPhoto} />
+          {preds === null && (
+            <Button theme="primary" label='Use this photo' onPress={useThisPhoto} />
+          )
+          }
           <Button label='Choose another photo' onPress={onReset} />
         </View>
       ) : (
