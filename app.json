@@ -21,7 +21,8 @@
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "fi.ekkulehto.lasimuki"
+      "package": "fi.ekkulehto.lasimuki",
+      "softwareKeyboardLayoutMode": "resize"
     },
     "web": {
       "output": "static",
