@@ -3,7 +3,6 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { PropsWithChildren, useState } from "react";
 import { KeyboardAvoidingView, Modal, Platform, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 
-
 type Props = PropsWithChildren<{
     isVisible: boolean;
     onClose: () => void;
@@ -11,69 +10,86 @@ type Props = PropsWithChildren<{
 }>;
 
 export default function UrlImagePicker({ isVisible, onClose, onConfirm }: Props) {
-    const [url, setUrl] = useState("")
+    const [url, setUrl] = useState("");
 
     const handleOk = async () => {
         const trimmed = url.trim();
+        if (!trimmed) {
+            alert('Please enter a valid URL.');
+            return;
+        }
         try {
             onConfirm(trimmed);
             setUrl("");
         } catch {
-            alert('Downloading image failed. Please check the URL.')
+            alert('Downloading image failed. Please check the URL.');
         }
-    }
+    };
 
     const handleClose = () => {
         setUrl("");
         onClose();
     };
 
-    if (!isVisible) return null;
-    
     return (
-        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-            <Modal animationType="slide" transparent={true} visible={isVisible}>
-                <View style={styles.modalContent}>
-                    <View style={styles.titleContainer}>
-                        <Text style={styles.title}>Give URL to the image</Text>
-                        <Pressable onPress={onClose}>
-                            <MaterialIcons name='close' color='#fff' size={22} />
-                        </Pressable>
-                    </View>
-                    <View style={styles.urlContent}>
-                        <TextInput
-                            value={url}
-                            onChangeText={setUrl}
-                            placeholder='https://example.com/image.jpg'
-                            style={styles.urlInput}
-
-                        />
-                        <View style={styles.urlButtonContainer}>
-                            <IconButton icon='cancel' label='Cancel' onPress={handleClose} />
-                            <IconButton icon='check' label='Accept' onPress={handleOk} />
+        <Modal
+            animationType="fade"
+            transparent={true}
+            visible={isVisible}
+            onRequestClose={handleClose}
+        >
+            <Pressable style={styles.modalBackdrop} onPress={handleClose}>
+                <KeyboardAvoidingView
+                    behavior={Platform.OS === "ios" ? "padding" : undefined}
+                >
+                    <Pressable>
+                        <View style={styles.modalContent}>
+                            <View style={styles.titleContainer}>
+                                <Text style={styles.title}>Give URL to the image</Text>
+                                <Pressable onPress={handleClose}>
+                                    <MaterialIcons name='close' color='#fff' size={22} />
+                                </Pressable>
+                            </View>
+                            <View style={styles.urlContent}>
+                                <TextInput
+                                    value={url}
+                                    onChangeText={setUrl}
+                                    placeholder='https://example.com/image.jpg'
+                                    style={styles.urlInput}
+                                    autoFocus={true}
+                                />
+                                <View style={styles.urlButtonContainer}>
+                                    <IconButton icon='cancel' label='Cancel' onPress={handleClose} />
+                                    <IconButton icon='check' label='Accept' onPress={handleOk} />
+                                </View>
+                            </View>
                         </View>
-                    </View>
-                </View>
-            </Modal>
-        </KeyboardAvoidingView>
+                    </Pressable>
+                </KeyboardAvoidingView>
+            </Pressable>
+        </Modal>
     );
 }
 
 const styles = StyleSheet.create({
+    modalBackdrop: {
+        flex: 1,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
     modalContent: {
-        height: 175,
-        width: '100%',
+        marginLeft: '3%',
+        marginRight: '3%',
+        maxWidth: '100%',
         backgroundColor: '#25292e',
-        borderTopRightRadius: 18,
-        borderTopLeftRadius: 18,
-        position: 'absolute',
-        bottom: 0,
+        borderRadius: 18,
+        overflow: 'hidden',
     },
     titleContainer: {
-        height: '16%',
+        width: '100%',
+        height: 50,
         backgroundColor: '#464C55',
-        borderTopRightRadius: 10,
-        borderTopLeftRadius: 10,
         paddingHorizontal: 20,
         flexDirection: 'row',
         alignItems: 'center',
@@ -84,22 +100,24 @@ const styles = StyleSheet.create({
         fontSize: 16,
     },
     urlContent: {
-        flex: 1,
+        padding: 20,
         alignItems: 'center',
-        justifyContent: 'center',
     },
     urlInput: {
-        height: 40,
-        width: '80%',
+        height: 45,
+        width: '100%',
         borderWidth: 1,
+        borderRadius: 8,
+        borderColor: '#ccc',
         backgroundColor: '#fff',
-        padding: 10,
-        margin: 12,
+        paddingHorizontal: 15,
+        marginBottom: 20,
+        fontSize: 16,
     },
     urlButtonContainer: {
-        width: '80%',
+        width: '100%',
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-between'
+        justifyContent: 'space-around',
     }
-})
+});
