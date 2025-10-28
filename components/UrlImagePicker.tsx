@@ -1,7 +1,7 @@
 import IconButton from '@/components/IconButton';
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { PropsWithChildren, useState } from "react";
-import { Image, KeyboardAvoidingView, Modal, Platform, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import { KeyboardAvoidingView, Modal, Platform, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 
 
 type Props = PropsWithChildren<{
@@ -16,7 +16,6 @@ export default function UrlImagePicker({ isVisible, onClose, onConfirm }: Props)
     const handleOk = async () => {
         const trimmed = url.trim();
         try {
-            await Image.prefetch(trimmed);
             onConfirm(trimmed);
             setUrl("");
         } catch {
@@ -32,7 +31,7 @@ export default function UrlImagePicker({ isVisible, onClose, onConfirm }: Props)
     if (!isVisible) return null;
     
     return (
-        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={{ flex: 1 }}>
+        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
             <Modal animationType="slide" transparent={true} visible={isVisible}>
                 <View style={styles.modalContent}>
                     <View style={styles.titleContainer}>
@@ -62,7 +61,7 @@ export default function UrlImagePicker({ isVisible, onClose, onConfirm }: Props)
 
 const styles = StyleSheet.create({
     modalContent: {
-        height: '25%',
+        height: 175,
         width: '100%',
         backgroundColor: '#25292e',
         borderTopRightRadius: 18,
