@@ -1,8 +1,10 @@
 import { AuthProvider, useAuth } from "@/context/AuthContext";
+import { PortalHost } from "@rn-primitives/portal";
 import { Stack, useRouter, useSegments } from "expo-router";
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from "react";
 import { ActivityIndicator, View } from "react-native";
+import "../global.css";
 
 const InitialLayout = () => {
   const { session, isLoading } = useAuth();
@@ -44,6 +46,7 @@ export default function RootLayout() {
         <InitialLayout />
       </AuthProvider>
       <StatusBar style='light'/>
+      <PortalHost /> 
     </>
   );
 }
