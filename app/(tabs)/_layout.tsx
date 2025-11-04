@@ -1,7 +1,11 @@
+import { useAuth } from '@/context/AuthContext';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Tabs } from "expo-router";
+import { Pressable } from 'react-native';
 
 export default function TabLayout() {
+    const { signOut } = useAuth();
+    
     return (
         <Tabs
             screenOptions={{
@@ -23,6 +27,11 @@ export default function TabLayout() {
                     headerTitleAlign: 'center',
                     tabBarIcon: ({ color, focused }) => (
                         <Ionicons name={focused ? 'home-sharp' : 'home-outline'} color={color} size={24} />
+                    ),
+                    headerRight: () => (
+                        <Pressable onPress={signOut} style={{ marginRight: 15 }}>
+                            <Ionicons name="log-out-outline" size={28} color="#fff" />
+                        </Pressable>
                     )
                 }}
             />
@@ -38,4 +47,4 @@ export default function TabLayout() {
             />
         </Tabs>
     )
-} 
+}
