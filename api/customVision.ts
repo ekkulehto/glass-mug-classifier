@@ -1,6 +1,6 @@
-const PREDICTION_KEY = process.env.EXPO_PUBLIC_PREDICTION_KEY!;
-const BASE_URL = process.env.EXPO_PUBLIC_CUSTOM_VISION_BASE_URL!;
-const BASE_IMAGE = process.env.EXPO_PUBLIC_CUSTOM_VISION_BASE_IMAGE!;
+import { getRefreshedTokens } from "@/lib/auth";
+
+const FUNCTION_APP_URL = "https://glass-mug-classifier-function-app-h9eadrh8ebdcc6dn.northeurope-01.azurewebsites.net/api";
 
 export type CvPrediction = { 
   tagName: string; 
@@ -14,14 +14,25 @@ async function ensureOk(res: Response) {
   }
 }
 
+async function getAuthHeaders() {
+  const tokens = await getRefreshedTokens();
+  if (!tokens?.accessToken) {
+    throw new Error("User is not authenticated. Please sign in again.");
+  }
+  return {
+    'Authorization': `Bearer ${tokens.accessToken}`
+  };
+}
+
 export async function predictFromUrl(imageUrl: string): Promise<CvPrediction[]> {
-  const res = await fetch(BASE_URL, {
+  const authHeaders = await getAuthHeaders();
+  const res = await fetch(`${FUNCTION_APP_URL}/predict/url`, {
     method: 'POST',
     headers: {
-      'Prediction-Key': PREDICTION_KEY,
+      ...authHeaders,
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ Url: imageUrl }),
+    body: JSON.stringify({ url: imageUrl }),
   });
 
   await ensureOk(res);
@@ -30,12 +41,13 @@ export async function predictFromUrl(imageUrl: string): Promise<CvPrediction[]> 
 }
 
 export async function predictFromFile(fileUri: string): Promise<CvPrediction[]> {
+  const authHeaders = await getAuthHeaders();
   const blob = await (await fetch(fileUri)).blob();
 
-  const res = await fetch(BASE_IMAGE, {
+  const res = await fetch(`${FUNCTION_APP_URL}/predict/image`, {
     method: 'POST',
     headers: {
-      'Prediction-Key': PREDICTION_KEY,
+      ...authHeaders,
       'Content-Type': 'application/octet-stream',
     },
     body: blob,
