@@ -1,5 +1,5 @@
 {
-  "name": "lasi-muki-luokittelija",
+  "name": "glass-mug-classifier",
   "main": "expo-router/entry",
   "version": "1.0.0",
   "scripts": {

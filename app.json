@@ -1,16 +1,16 @@
 {
   "expo": {
-    "name": "lasi-muki-luokittelija",
-    "slug": "lasi-muki-luokittelija",
+    "name": "glass-mug-classifier",
+    "slug": "glass-mug-classifier",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "lasimukiluokittelija",
+    "scheme": "glassmugclassifier",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "fi.ekkulehto.lasimuki"
+      "bundleIdentifier": "fi.ekkulehto.glassmugclassifier"
     },
     "android": {
       "adaptiveIcon": {
@@ -21,7 +21,7 @@
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "fi.ekkulehto.lasimuki",
+      "package": "fi.ekkulehto.glassmugclassifier",
       "softwareKeyboardLayoutMode": "resize"
     },
     "web": {
@@ -63,8 +63,9 @@
       "reactCompiler": true
     },
     "extra": {
+      "router": {},
       "eas": {
-        "projectId": "71d5fd32-d9cc-44a5-bb52-7d99cd38a32f"
+        "projectId": "8eaec61d-f108-49c1-be0c-82beee9811bd"
       }
     }
   }
