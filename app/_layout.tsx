@@ -1,7 +1,10 @@
 import { AuthProvider, useAuth } from "@/context/AuthContext";
+import { NAV_THEME } from "@/lib/theme";
+import { ThemeProvider } from "@react-navigation/native";
 import { PortalHost } from "@rn-primitives/portal";
 import { Stack, useRouter, useSegments } from "expo-router";
 import { StatusBar } from 'expo-status-bar';
+import { useColorScheme } from "nativewind";
 import { useEffect } from "react";
 import { ActivityIndicator, View } from "react-native";
 import "../global.css";
@@ -40,13 +43,15 @@ const InitialLayout = () => {
 };
 
 export default function RootLayout() {
+  const {colorScheme} = useColorScheme()
+
   return (
-    <>
+    <ThemeProvider value={NAV_THEME[colorScheme ?? 'dark']}>
       <AuthProvider>
         <InitialLayout />
       </AuthProvider>
-      <StatusBar style='light'/>
+      <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
       <PortalHost /> 
-    </>
+    </ThemeProvider>
   );
 }
