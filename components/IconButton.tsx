@@ -1,6 +1,6 @@
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import { Text } from "@react-navigation/elements";
 import { Pressable, StyleSheet } from "react-native";
+import { Text } from './ui/text';
 
 type Props = {
     icon: keyof typeof MaterialIcons.glyphMap;
