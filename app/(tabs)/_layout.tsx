@@ -1,22 +1,24 @@
 import { useAuth } from '@/context/AuthContext';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { useTheme } from '@react-navigation/native';
 import { Tabs } from "expo-router";
 import { Pressable } from 'react-native';
 
 export default function TabLayout() {
     const { signOut } = useAuth();
+    const {colors} = useTheme();
     
     return (
         <Tabs
             screenOptions={{
-                tabBarActiveTintColor: '#ffd33d',
+                tabBarActiveTintColor: colors.primary,
                 headerStyle: {
-                    backgroundColor: '#25292e',
+                    backgroundColor: colors.background,
                 },
                 headerShadowVisible: false,
                 headerTintColor: '#fff',
                 tabBarStyle: {
-                    backgroundColor: '#25292e'
+                    backgroundColor: colors.background
                 }
             }}
         >

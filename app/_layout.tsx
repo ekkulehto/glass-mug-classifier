@@ -13,6 +13,7 @@ const InitialLayout = () => {
   const { session, isLoading } = useAuth();
   const segments = useSegments();
   const router = useRouter();
+  const {colorScheme} = useColorScheme();
 
   useEffect(() => {
     if (isLoading) return;
@@ -28,8 +29,8 @@ const InitialLayout = () => {
 
   if (isLoading) {
     return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#25292e' }}>
-            <ActivityIndicator size="large" color="#ffd33d" />
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+            <ActivityIndicator size="large" color={colorScheme === 'dark' ? 'white' : 'black'} />
         </View>
     );
   }
