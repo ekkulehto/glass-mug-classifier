@@ -1,15 +1,26 @@
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { useTheme } from '@react-navigation/native';
 import { Pressable, StyleSheet, View } from "react-native";
 
 type Props = {
     onPress: () => void;
 };
 
-export default function CircleButton({onPress}: Props){
+export default function CircleButton({ onPress }: Props) {
+    const { colors } = useTheme();
+
     return (
         <View style={styles.circleButtonContainer}>
-            <Pressable style={styles.circleButton} onPress={onPress}>
-                <MaterialIcons name='add' size={38} color='#25292e' />
+            <Pressable
+                onPress={onPress}
+                style={[
+                    styles.circleButton,
+                    {
+                        backgroundColor: colors.text
+                    }
+                ]}
+            >
+                <MaterialIcons name='add' size={38} color={colors.background} />
             </Pressable>
         </View>
     );
@@ -30,6 +41,5 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 42,
-        backgroundColor: '#fff'
     }
 })
