@@ -1,6 +1,6 @@
 import * as ImagePicker from 'expo-image-picker';
 import { useState } from "react";
-import { ActivityIndicator, Alert, Text, View } from "react-native";
+import { ActivityIndicator, Alert, View } from "react-native";
 
 import { predictFromFile, predictFromUrl, type CvPrediction } from '@/api/customVision';
 import Button from "@/components/Button";
@@ -8,6 +8,7 @@ import CircleButton from '@/components/CircleButton';
 import IconButton from '@/components/IconButton';
 import ImageViewer from '@/components/ImageViewer';
 import Predictions from '@/components/Predictions';
+import { Text } from '@/components/ui/text';
 import UrlButton from '@/components/UrlButton';
 import { useColorScheme } from 'nativewind';
 
@@ -85,7 +86,7 @@ export default function Index() {
   };
 
   return (
-    <View className='flex-1 mx-auto items-center'>
+    <View className='flex-1 mx-auto items-center mt-10'>
       <View>
         <ImageViewer imgSource={PlaceholderImage} selectedImage={selectedImage} />
         {loading ? (
