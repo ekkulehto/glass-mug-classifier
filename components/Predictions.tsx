@@ -1,6 +1,7 @@
 import type { CvPrediction } from '@/api/customVision';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import { Text } from './ui/text';
 
 export default function Predictions({ data }: { data: CvPrediction[] | null }) {
     if (!data || data.length === 0) return null;
