@@ -1,13 +1,14 @@
+import { UserMenu } from '@/components/user-menu';
 import { useAuth } from '@/context/AuthContext';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useTheme } from '@react-navigation/native';
 import { Tabs } from "expo-router";
-import { Pressable } from 'react-native';
+import { View } from 'react-native';
 
 export default function TabLayout() {
     const { signOut } = useAuth();
-    const {colors} = useTheme();
-    
+    const { colors } = useTheme();
+
     return (
         <Tabs
             screenOptions={{
@@ -19,7 +20,12 @@ export default function TabLayout() {
                 headerTintColor: '#fff',
                 tabBarStyle: {
                     backgroundColor: colors.background
-                }
+                },
+                headerRight: () => (
+                    <View className='mr-5'>
+                        <UserMenu />
+                    </View>
+                )
             }}
         >
             <Tabs.Screen
@@ -30,11 +36,7 @@ export default function TabLayout() {
                     tabBarIcon: ({ color, focused }) => (
                         <Ionicons name={focused ? 'home-sharp' : 'home-outline'} color={color} size={24} />
                     ),
-                    headerRight: () => (
-                        <Pressable onPress={signOut} style={{ marginRight: 15 }}>
-                            <Ionicons name="log-out-outline" size={28} color="#fff" />
-                        </Pressable>
-                    )
+
                 }}
             />
             <Tabs.Screen
@@ -44,7 +46,7 @@ export default function TabLayout() {
                     headerTitleAlign: 'center',
                     tabBarIcon: ({ color, focused }) => (
                         <Ionicons name={focused ? 'information-circle' : 'information-circle-outline'} color={color} size={24} />
-                    )
+                    ),
                 }}
             />
         </Tabs>
