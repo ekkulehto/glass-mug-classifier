@@ -90,7 +90,7 @@ export default function Index() {
       <View>
         <ImageViewer imgSource={PlaceholderImage} selectedImage={selectedImage} />
         {loading ? (
-          <View className='flex-1 mx-auto justify-center'>
+          <View className='flex-1 mx-auto justify-center gap-3'>
             <ActivityIndicator size={'large'} color={colorScheme === 'dark' ? 'white' : 'black'} />
             <Text>Loading...</Text>
           </View>
