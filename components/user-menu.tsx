@@ -21,11 +21,6 @@ export function UserMenu() {
   const popoverTriggerRef = React.useRef<TriggerRef>(null);
   const { signOut } = useAuth();
 
-  async function onSignOut() {
-    popoverTriggerRef.current?.close();
-    signOut();
-  }
-
   return (
     <Popover>
       <PopoverTrigger asChild ref={popoverTriggerRef}>
@@ -47,7 +42,7 @@ export function UserMenu() {
             </View>
           </View>
           <View className="flex-row flex-wrap gap-3 py-0.5">
-            <Button variant="outline" size="sm" className="flex-1" onPress={onSignOut}>
+            <Button variant="outline" size="sm" className="flex-1" onPress={signOut}>
               <Icon as={LogOutIcon} className="size-4" />
               <Text>Sign Out</Text>
             </Button>
