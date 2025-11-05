@@ -14,6 +14,7 @@ import { Text } from '@/components/ui/text';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import * as React from 'react';
 import { Pressable, StyleSheet, View, type ViewStyle } from 'react-native';
+import { toast } from 'sonner-native';
 import { Label } from './ui/label';
 
 type Props = {
@@ -31,7 +32,8 @@ export default function UrlButton({ label = 'URL', icon = 'link', placeholder = 
     const handleSave = async () => {
         const trimmed = url.trim();
         if (!trimmed) {
-            alert('Please enter a valid URL.');
+            toast.error('Please enter a valid URL.');
+            // alert('Please enter a valid URL.');
             return;
         }
         try {
