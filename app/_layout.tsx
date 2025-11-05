@@ -7,13 +7,19 @@ import { StatusBar } from 'expo-status-bar';
 import { useColorScheme } from "nativewind";
 import { useEffect } from "react";
 import { ActivityIndicator, View } from "react-native";
+import "react-native-gesture-handler";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import "react-native-reanimated";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import { ZView } from "react-native-z-view";
+import { Toaster } from 'sonner-native';
 import "../global.css";
 
 const InitialLayout = () => {
   const { session, isLoading } = useAuth();
   const segments = useSegments();
   const router = useRouter();
-  const {colorScheme} = useColorScheme();
+  const { colorScheme } = useColorScheme();
 
   useEffect(() => {
     if (isLoading) return;
@@ -29,30 +35,36 @@ const InitialLayout = () => {
 
   if (isLoading) {
     return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-            <ActivityIndicator size="large" color={colorScheme === 'dark' ? 'white' : 'black'} />
-        </View>
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size="large" color={colorScheme === 'dark' ? 'white' : 'black'} />
+      </View>
     );
   }
 
   return (
     <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Screen name='(tabs)' />
-        <Stack.Screen name='login' />
+      <Stack.Screen name='(tabs)' />
+      <Stack.Screen name='login' />
     </Stack>
   );
 };
 
 export default function RootLayout() {
-  const {colorScheme} = useColorScheme()
+  const { colorScheme } = useColorScheme()
 
   return (
-    <ThemeProvider value={NAV_THEME[colorScheme ?? 'dark']}>
-      <AuthProvider>
-        <InitialLayout />
-      </AuthProvider>
-      <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
-      <PortalHost /> 
-    </ThemeProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <SafeAreaProvider>
+        <ThemeProvider value={NAV_THEME[colorScheme ?? 'dark']}>
+          <AuthProvider>
+            <InitialLayout />
+          </AuthProvider>
+          <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
+          <Toaster ToasterOverlayWrapper={ZView} />
+          {/* <Toaster /> */}
+          <PortalHost />
+        </ThemeProvider>
+      </SafeAreaProvider>
+    </GestureHandlerRootView>
   );
 }
