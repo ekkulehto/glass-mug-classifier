@@ -18,7 +18,7 @@ export function SignInForm() {
         <CardHeader>
           <CardTitle className="text-center text-xl sm:text-left">Sign in to Glass-Mug-Classifier</CardTitle>
           <CardDescription className="text-center sm:text-left">
-            Welcome! Please sign in to continue
+            Welcome! Please sign in to continue.
           </CardDescription>
         </CardHeader>
         <CardContent className="gap-6">
