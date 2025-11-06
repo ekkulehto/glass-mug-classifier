@@ -4,7 +4,14 @@ import * as SecureStore from 'expo-secure-store';
 const TENANT_ID = "b86a3de3-6bc6-4372-9fbb-f0a39aafc70e";
 const CLIENT_ID = "648435bb-61aa-43b6-aa64-cd385fe38307";
 
-const scopes = ["openid", "profile", "offline_access", `api://${CLIENT_ID}/access_as_user`];
+export const loginScopes = [
+  "openid", 
+  "profile",
+  "email", 
+  "offline_access", 
+  `api://${CLIENT_ID}/access_as_user`,
+  "User.Read",
+];
 
 const discovery = {
   authorizationEndpoint: `https://login.microsoftonline.com/${TENANT_ID}/oauth2/v2.0/authorize`,
@@ -55,7 +62,7 @@ export async function getRefreshedTokens(): Promise<AuthTokens | null> {
     }
     try {
       const refreshedTokens = await AuthSession.refreshAsync(
-        { clientId: CLIENT_ID, refreshToken, scopes },
+        { clientId: CLIENT_ID, refreshToken, scopes: loginScopes },
         discovery
       );
       return await saveTokens(refreshedTokens);
@@ -84,9 +91,10 @@ export function useAuthRequest() {
   return AuthSession.useAuthRequest(
     {
       clientId: CLIENT_ID,
-      scopes,
+      scopes: loginScopes,
       redirectUri,
       responseType: AuthSession.ResponseType.Code,
+      extraParams: { prompt: 'consent' },
     },
     discovery
   );
@@ -107,4 +115,25 @@ export async function exchangeCodeForToken(
     discovery
   );
   return await saveTokens(tokenResponse);
+}
+
+export async function getGraphAccessToken(): Promise<string | null> {
+  const refreshToken = await SecureStore.getItemAsync(REFRESH_TOKEN_KEY);
+  if (!refreshToken) return null;
+
+  try {
+    const graphTokenResponse = await AuthSession.refreshAsync(
+      {
+        clientId: CLIENT_ID,
+        refreshToken,
+        scopes: ["User.Read", "offline_access"],
+      },
+      discovery
+    );
+
+    return graphTokenResponse.accessToken ?? null;
+  } catch (e) {
+    console.error("Failed to get Graph access token", e);
+    return null;
+  }
 }
