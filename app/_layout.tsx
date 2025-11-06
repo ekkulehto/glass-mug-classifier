@@ -14,7 +14,6 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { ZView } from "react-native-z-view";
 import { Toaster } from 'sonner-native';
 import "../global.css";
-// test for WSL integration
 
 const InitialLayout = () => {
   const { session, isLoading } = useAuth();
