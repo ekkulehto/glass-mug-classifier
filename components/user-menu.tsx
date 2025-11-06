@@ -1,25 +1,26 @@
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
-import { Icon } from '@/components/ui/icon';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { Text } from '@/components/ui/text';
-import { useAuth } from '@/context/AuthContext';
-import { cn } from '@/lib/utils';
-import type { TriggerRef } from '@rn-primitives/popover';
-import { LogOutIcon } from 'lucide-react-native';
-import * as React from 'react';
-import { View } from 'react-native';
-
-const USER = {
-  fullName: 'Ekku Lehto',
-  initials: 'EN',
-  imgSrc: { uri: 'https://github.com/mrzachnugent.png' },
-  username: 'egguz',
-};
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Image as ExpoImage } from "expo-image";
+import { Button } from "@/components/ui/button";
+import { Icon } from "@/components/ui/icon";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Text } from "@/components/ui/text";
+import { useAuth } from "@/context/AuthContext";
+import { useGraphAvatarSource } from "@/hooks/useGraphAvatar";
+import { cn } from "@/lib/utils";
+import type { TriggerRef } from "@rn-primitives/popover";
+import { LogOutIcon } from "lucide-react-native";
+import * as React from "react";
+import { View } from "react-native";
 
 export function UserMenu() {
   const popoverTriggerRef = React.useRef<TriggerRef>(null);
-  const { signOut } = useAuth();
+  const { signOut, profile, graphAccessToken } = useAuth();
+
+  const fullName = profile?.displayName ?? "Signed user";
+  const email = profile?.email ?? "";
+  const initials = getInitials(fullName);
+
+  const { source, recyclingKey } = useGraphAvatarSource(graphAccessToken);
 
   async function onSignOut() {
     popoverTriggerRef.current?.close();
@@ -31,22 +32,20 @@ export function UserMenu() {
     <Popover>
       <PopoverTrigger asChild ref={popoverTriggerRef}>
         <Button variant="ghost" size="icon" className="size-8 rounded-full">
-          <UserAvatar />
+          <UserAvatar className="size-10" fullName={fullName} initials={initials} source={source} recyclingKey={recyclingKey} />
         </Button>
       </PopoverTrigger>
+
       <PopoverContent align="end" side="bottom" className="p-0">
         <View className="border-border gap-3 p-3">
           <View className="flex-row items-center gap-3">
-            <UserAvatar className="size-10" />
+            <UserAvatar className="size-10" fullName={fullName} initials={initials} source={source} recyclingKey={recyclingKey} />
             <View className="flex-1">
-              <Text className="font-medium leading-5">{USER.fullName}</Text>
-              {USER.fullName?.length ? (
-                <Text className="text-muted-foreground text-sm font-normal leading-4">
-                  {USER.username}
-                </Text>
-              ) : null}
+              <Text className="font-medium leading-5">{fullName}</Text>
+              {email ? <Text className="text-muted-foreground text-sm font-normal leading-4">{email}</Text> : null}
             </View>
           </View>
+
           <View className="flex-row flex-wrap gap-3 py-0.5">
             <Button variant="outline" size="sm" className="flex-1" onPress={onSignOut}>
               <Icon as={LogOutIcon} className="size-4" />
@@ -59,13 +58,37 @@ export function UserMenu() {
   );
 }
 
-function UserAvatar({ className, ...props }: Omit<React.ComponentProps<typeof Avatar>, 'alt'>) {
+function UserAvatar({
+  className,
+  fullName,
+  initials,
+  source,
+  recyclingKey,
+  ...props
+}: Omit<React.ComponentProps<typeof Avatar>, "alt"> & {
+  fullName: string;
+  initials: string;
+  source?: any;
+  recyclingKey: string;
+}) {
   return (
-    <Avatar alt={`${USER.fullName}'s avatar`} className={cn('size-8', className)} {...props}>
-      <AvatarImage source={USER.imgSrc} />
+    <Avatar alt={`${fullName}'s avatar`} className={cn("size-8", className)} {...props}>
+      {source ? (
+        <ExpoImage
+          source={source}
+          style={{ width: "100%", height: "100%", borderRadius: 9999 }}
+          cachePolicy="memory-disk"
+          recyclingKey={recyclingKey}
+        />
+      ) : null}
       <AvatarFallback>
-        <Text>{USER.initials}</Text>
+        <Text>{initials}</Text>
       </AvatarFallback>
     </Avatar>
   );
+}
+
+function getInitials(name: string) {
+  const parts = name.trim().split(/\s+/);
+  return parts.slice(0, 2).map(p => p[0]?.toUpperCase() ?? "").join("") || "U";
 }
