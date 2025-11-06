@@ -1,3 +1,5 @@
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import { AuthProvider, useAuth } from "@/context/AuthContext";
 import { NAV_THEME } from "@/lib/theme";
 import { ThemeProvider } from "@react-navigation/native";
@@ -6,11 +8,7 @@ import { Stack, useRouter, useSegments } from "expo-router";
 import { StatusBar } from 'expo-status-bar';
 import { useColorScheme } from "nativewind";
 import { useEffect } from "react";
-import { ActivityIndicator, View } from "react-native";
-import "react-native-gesture-handler";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
-import "react-native-reanimated";
-import { SafeAreaProvider } from "react-native-safe-area-context";
+import { ActivityIndicator, Dimensions, View } from "react-native";
 import { ZView } from "react-native-z-view";
 import { Toaster } from 'sonner-native';
 import "../global.css";
@@ -49,6 +47,17 @@ const InitialLayout = () => {
   );
 };
 
+function ZOverlay({ children }: { children: React.ReactNode }) {
+  const { width, height } = Dimensions.get("screen");
+  return (
+    <ZView top={0} left={0} right={0} bottom={0} touchable={false}>
+      <View style={{ width, height }} pointerEvents="box-none">
+        {children}
+      </View>
+    </ZView>
+  );
+}
+
 export default function RootLayout() {
   const { colorScheme } = useColorScheme()
 
@@ -59,10 +68,12 @@ export default function RootLayout() {
           <AuthProvider>
             <InitialLayout />
           </AuthProvider>
+
           <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
-          <Toaster ToasterOverlayWrapper={ZView} />
-          {/* <Toaster /> */}
+
           <PortalHost />
+          {/* <Toaster /> */}
+          <Toaster ToasterOverlayWrapper={ZOverlay}/>
         </ThemeProvider>
       </SafeAreaProvider>
     </GestureHandlerRootView>
