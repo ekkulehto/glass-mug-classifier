@@ -1,5 +1,5 @@
 import * as ImagePicker from 'expo-image-picker';
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ActivityIndicator, Alert, View } from "react-native";
 
 import { predictFromFile, predictFromUrl, type CvPrediction } from '@/api/customVision';
@@ -11,6 +11,7 @@ import Predictions from '@/components/Predictions';
 import { Text } from '@/components/ui/text';
 import UrlButton from '@/components/UrlButton';
 import { useColorScheme } from 'nativewind';
+import { showChooseImageOrUrlFirstToast, showLoginSuccessToast, showPredictionErrorToast } from '@/lib/toasts';
 
 const PlaceholderImage = require('@/assets/images/background-image.png');
 
@@ -22,11 +23,20 @@ export default function Index() {
   const [sourceType, setSourceType] = useState<SourceKind>('none');
   const [preds, setPreds] = useState<CvPrediction[] | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
-  const {colorScheme} = useColorScheme()
+  const { colorScheme } = useColorScheme()
+
+  const fired = useRef(false);
+
+  useEffect(() => {
+    if (fired.current) return;
+    fired.current = true;
+
+    showLoginSuccessToast();
+  }, []);
 
   const useThisPhoto = async () => {
     if (!selectedImage || sourceType === 'none') {
-      Alert.alert('Choose image or URL first.');
+      showChooseImageOrUrlFirstToast();
       return;
     }
     try {
@@ -37,7 +47,7 @@ export default function Index() {
       setPreds(data);
       setShowAppOptions(true);
     } catch (e: any) {
-      Alert.alert('Error', e?.message ?? 'Prediction failed.');
+      showPredictionErrorToast(e);
       setPreds(null);
     } finally {
       setLoading(false);
@@ -112,9 +122,9 @@ export default function Index() {
         </View>
       ) : (
         <View className='flex-1 flex-row mx-auto items-center'>
-            <UrlButton onConfirm={handleUrlPicked} />
-            <CircleButton onPress={pickImageAsync} />
-            <IconButton icon='camera-alt' label='Photo' onPress={takeImageAsync} />
+          <UrlButton onConfirm={handleUrlPicked} />
+          <CircleButton onPress={pickImageAsync} />
+          <IconButton icon='camera-alt' label='Photo' onPress={takeImageAsync} />
         </View>
       )}
     </View>
