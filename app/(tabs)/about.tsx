@@ -14,7 +14,6 @@ export default function AboutScreen() {
         type="single"
         collapsible
         className="-mx-4 w-[calc(100%+32px)] max-w-lg"
-        defaultValue="item-1"
       >
         <AccordionItem value="item-1" className="px-4">
           <AccordionTrigger>
