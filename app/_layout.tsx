@@ -13,6 +13,8 @@ import { ZView } from "react-native-z-view";
 import { Toaster } from 'sonner-native';
 import "../global.css";
 
+const isProduction = false;
+
 const InitialLayout = () => {
   const { session, isLoading } = useAuth();
   const segments = useSegments();
@@ -27,7 +29,7 @@ const InitialLayout = () => {
     if (session && !inAuthGroup) {
       router.replace('/(tabs)');
     } else if (!session && inAuthGroup) {
-      router.replace('./login');
+      router.replace('/login');
     }
   }, [session, isLoading, segments]);
 
@@ -72,8 +74,12 @@ export default function RootLayout() {
           <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
 
           <PortalHost />
-          {/* <Toaster /> */}
-          <Toaster ToasterOverlayWrapper={ZOverlay}/>
+
+          {isProduction ?
+            (<Toaster ToasterOverlayWrapper={ZOverlay} />)
+            :
+            (<Toaster />)
+          }
         </ThemeProvider>
       </SafeAreaProvider>
     </GestureHandlerRootView>
