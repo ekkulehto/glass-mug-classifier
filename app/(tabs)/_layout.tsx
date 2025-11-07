@@ -1,12 +1,10 @@
 import { UserMenu } from '@/components/user-menu';
-import { useAuth } from '@/context/AuthContext';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useTheme } from '@react-navigation/native';
 import { Tabs } from "expo-router";
 import { View } from 'react-native';
 
 export default function TabLayout() {
-    const { signOut } = useAuth();
     const { colors } = useTheme();
 
     return (
