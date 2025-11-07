@@ -13,8 +13,6 @@ import { ZView } from "react-native-z-view";
 import { Toaster } from 'sonner-native';
 import "../global.css";
 
-const isProduction = false;
-
 const InitialLayout = () => {
   const { session, isLoading } = useAuth();
   const segments = useSegments();
@@ -70,16 +68,12 @@ export default function RootLayout() {
           <AuthProvider>
             <InitialLayout />
           </AuthProvider>
-
           <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
 
           <PortalHost />
 
-          {isProduction ?
-            (<Toaster ToasterOverlayWrapper={ZOverlay} />)
-            :
-            (<Toaster />)
-          }
+          <Toaster ToasterOverlayWrapper={ZOverlay} />
+
         </ThemeProvider>
       </SafeAreaProvider>
     </GestureHandlerRootView>
