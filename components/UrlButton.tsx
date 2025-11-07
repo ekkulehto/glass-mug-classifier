@@ -16,6 +16,8 @@ import * as React from 'react';
 import { Pressable, StyleSheet, View, type ViewStyle } from 'react-native';
 import { Label } from './ui/label';
 import { showDownloadFailedToast, showInvalidUrlToast } from '@/lib/toasts';
+import IconButton from './IconButton';
+import { Link } from 'lucide-react-native';
 
 type Props = {
     label?: string;
@@ -51,10 +53,7 @@ export default function UrlButton({ label = 'URL', icon = 'link', placeholder = 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <Pressable>
-                    <MaterialIcons name={icon} size={24} color="#fff" />
-                    <Text style={styles.iconButtonLabel}>{label}</Text>
-                </Pressable>
+                <IconButton icon={Link} label={label} />
             </DialogTrigger>
 
             <DialogContent className="max-w-[100%]">
