@@ -31,7 +31,7 @@ export function UserMenu() {
   return (
     <Popover>
       <PopoverTrigger asChild ref={popoverTriggerRef}>
-        <Button variant="ghost" size="icon" className="size-8 rounded-full">
+        <Button variant="ghost" size="icon" className="size-10 rounded-full">
           <UserAvatar className="size-10" fullName={fullName} initials={initials} source={source} recyclingKey={recyclingKey} />
         </Button>
       </PopoverTrigger>
