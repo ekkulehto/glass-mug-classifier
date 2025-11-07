@@ -1,6 +1,6 @@
 import * as ImagePicker from 'expo-image-picker';
-import { useEffect, useRef, useState } from "react";
-import { ActivityIndicator, Alert, View } from "react-native";
+import { useState } from "react";
+import { ActivityIndicator, View } from "react-native";
 
 import { predictFromFile, predictFromUrl, type CvPrediction } from '@/api/customVision';
 import Button from "@/components/Button";
@@ -11,7 +11,8 @@ import Predictions from '@/components/Predictions';
 import { Text } from '@/components/ui/text';
 import UrlButton from '@/components/UrlButton';
 import { useColorScheme } from 'nativewind';
-import { showChooseImageOrUrlFirstToast, showLoginSuccessToast, showPredictionErrorToast } from '@/lib/toasts';
+import { showChooseImageOrUrlFirstToast, showPredictionErrorToast } from '@/lib/toasts';
+import { Camera } from 'lucide-react-native';
 
 const PlaceholderImage = require('@/assets/images/background-image.png');
 
@@ -24,15 +25,6 @@ export default function Index() {
   const [preds, setPreds] = useState<CvPrediction[] | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
   const { colorScheme } = useColorScheme()
-
-  const fired = useRef(false);
-
-  useEffect(() => {
-    if (fired.current) return;
-    fired.current = true;
-
-    showLoginSuccessToast();
-  }, []);
 
   const useThisPhoto = async () => {
     if (!selectedImage || sourceType === 'none') {
@@ -124,7 +116,7 @@ export default function Index() {
         <View className='flex-1 flex-row mx-auto items-center'>
           <UrlButton onConfirm={handleUrlPicked} />
           <CircleButton onPress={pickImageAsync} />
-          <IconButton icon='camera-alt' label='Photo' onPress={takeImageAsync} />
+          <IconButton icon={Camera} label='Photo' onPress={takeImageAsync} />
         </View>
       )}
     </View>
