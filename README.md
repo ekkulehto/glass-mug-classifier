@@ -1,50 +1,314 @@
-# Welcome to your Expo app 👋
+# 🥛 Glass & Mug Classifier
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A mobile application built with **React Native** and **Expo** to classify images of glasses and mugs. This app leverages a custom AI model trained with **Azure Custom Vision** and is supported by a secure backend built on **Azure Functions** with **Microsoft Entra ID** for authentication.
 
-## Get started
+---
 
-1. Install dependencies
+## 🔍 Core Features
 
-   ```bash
-   npm install
-   ```
+### 🔐 Secure Authentication
+-   **Microsoft Entra ID:** Ensures that the API and user data are protected with secure sign-in.
+-   **Persistent Sessions:** Users remain logged in between sessions for a seamless experience.
 
-2. Start the app
+<br>
 
-   ```bash
-   npx expo start
-   ```
+<p align="left">
+  <table width="100%">
+    <tr>
+      <th style="text-align:center;" width="50%">Login Screen</th>
+      <th style="text-align:center;" width="50%">About Screen</th>
+    </tr>
+    <tr>
+      <td style="text-align:center;">
+        <p align="center">
+                <img src="images/login_screen.jpg" alt="login-screen" width="100%">
+        </p>
+      </td>
+      <td style="text-align:center;">
+        <p align="center">
+                <img src="images/about_screen.jpg" alt="about-screen" width="100%">
+        </p>
+      </td>
+    </tr>
+    <tr>
+      <th colspan="2" style="text-align:center;">
+        <em>Click the image to view it larger</em>
+      </th>
+    </tr>
+  </table>
+</p>
 
-In the output, you'll find options to open the app in a
+---
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+### 🖼️ Image Classification
+-   **Multiple Input Methods:** Users can provide an image by pasting a URL, selecting from the device gallery, or taking a photo with the camera.
+-   **AI-Powered Analysis:** The image is sent to the custom-trained Azure Custom Vision model for classification.
+-   **Clear Results:** The app displays the classification results with confidence scores for both 'glass' and 'mug'.
+-   **In-App Guide:** A help screen provides clear instructions on how to use the application.
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+<br>
 
-## Get a fresh project
+<p align="left">
+  <table width="100%">
+    <tr>
+      <th style="text-align:center;" width="50%">Home & Image Sources</th>
+      <th style="text-align:center;" width="50%">Classification Results</th>
+    </tr>
+    <tr>
+      <td style="text-align:center;">
+        <p align="center">
+          <div>
+            <img src="images/main_screen.jpg" alt="home-and-sources" width="100%">
+          </div>
+        </p>
+      </td>
+      <td style="text-align:center;">
+        <p align="center">
+          <div>
+            <img src="images/results_screen.jpg" alt="results" width="100%">
+          </div>
+        </p>
+      </td>
+    </tr>
+    <tr>
+      <th colspan="2" style="text-align:center;">
+        <em>Click the image to view it larger</em>
+      </th>
+    </tr>
+  </table>
+</p>
 
-When you're ready, run:
+<br>
+
+<p align="left">
+  <table width="100%">
+    <tr>
+      <th style="text-align:center;" width="50%">URL Input</th>
+      <th style="text-align:center;" width="50%">Instructions</th>
+    </tr>
+    <tr>
+      <td style="text-align:center;">
+        <p align="center">
+          <div>
+            <img src="images/add_image_from_url.jpg" alt="url-and-gallery" width="100%">
+          </div>
+        </p>
+      </td>
+      <td style="text-align:center;">
+        <p align="center">
+          <div>
+            <img src="images/how_to_screen.jpg" alt="instructions" width="100%">
+          </div>
+        </p>
+      </td>
+    </tr>
+    <tr>
+      <th colspan="2" style="text-align:center;">
+        <em>Click the image to view it larger</em>
+      </th>
+    </tr>
+  </table>
+</p>
+
+---
+
+## 🤖 AI Model & Dataset
+
+The classification model was trained on a custom dataset compiled by the developer.
+
+-   **Dataset Size:** `1104` images of glasses and `1097` images of mugs.
+-   **Variety:** The dataset includes **9 different types of glasses** and **6 different types of mugs** to improve model robustness.
+-   **Training Platform:** The model was trained and deployed using **Azure Custom Vision**, achieving high precision and recall metrics.
+
+<br>
+
+<p align="center">
+  <img src="images/dataset_collage.jpg" alt="dataset-collage" width="80%">
+  <br>
+  <em>A collage of the training dataset.</em>
+</p>
+
+<p align="center">
+  <img src="images/custom_vision.png" alt="dataset-collage" width="80%">
+  <br>
+  <em>Custom Vision model results.</em>
+</p>
+
+---
+
+## 🛠️ Technologies Used
+
+-   **Frontend:** React Native, Expo, TypeScript, Tailwind CSS
+-   **Backend & Cloud:** Azure Functions, Azure Custom Vision, Microsoft Entra ID, Microsoft Graph, Azure Key Vault
+-   **UI & Icons:** `React Native Reusables`, `lucide-react-native`
+
+---
+
+## 🚀 Project Setup
+
+You can install the project dependencies and launch the Expo development client by running:
 
 ```bash
-npm run reset-project
+npm install
+npx expo start
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+### ⚠️ Important Note on Functionality
 
-## Learn more
+This repository is intended as a portfolio piece and is **not runnable out-of-the-box**. The entire backend is secured with a **Microsoft Entra ID** tenant configured to grant access **only to the developer's user account**. This is a deliberate security measure to protect cloud resources and API keys.
 
-To learn more about developing your project with Expo, look at the following resources:
+The entire backend infrastructure is secured using **Microsoft Entra ID**, which has been configured to **only permit access for the developer's specific user account**. This was a deliberate design choice to protect the cloud resources and API keys.
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+Consequently, if you run the application locally, you will be able to see the UI, but any action that requires backend communication (i.e., logging in and submitting a photo for classification) **will result in an authentication failure**.
 
-## Join the community
+### How to Replicate the Setup
 
-Join our community of developers creating universal apps.
+To run this project with full functionality, you would need to create and configure your own backend infrastructure on Microsoft Azure. This would involve the following key steps:
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+1.  **Deploy a Custom Vision Model:** Train and publish your own classification model to get a `Prediction-Key` and two endpoint URLs (one for image URLs, one for file uploads).
+
+2.  **Create an Azure Key Vault:** This service will securely store your secrets. Add the following three secrets to your Key Vault:
+    *   `CustomVisionPredictionKey`: The `Prediction-Key` from your model.
+    *   `CustomVisionEndpointUrl`: The prediction endpoint for image URLs.
+    *   `CustomVisionEndpointFile`: The prediction endpoint for direct image file uploads.
+
+3.  **Create and Deploy Azure Functions:** The Function App serves as a secure intermediary (proxy) that hides your Custom Vision keys from the client application. The client calls your functions, which then securely call the Custom Vision API using the keys from Key Vault.
+
+    You will need to create two separate **HTTP Trigger** functions within your Function App. The easiest way to do this is using the [Azure Functions extension in Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-azurefunctions).
+
+    ###### **Function 1: `predictFromUrl`**
+    This function handles predictions when the user provides an image URL.
+
+    ```javascript
+      import { app, HttpRequest, HttpResponseInit} from "@azure/functions";
+
+      app.http("predict-url", {
+         methods: ["POST"],
+         authLevel: "anonymous",
+         route: "predict/url",
+         handler: async (request: HttpRequest): Promise<HttpResponseInit> => {
+            const body: any = await request.json();
+            const imageUrl = body.url;
+
+            if (!imageUrl) {
+                  return { status: 400, jsonBody: { error: "URL is missing" } };
+            }
+
+            const endpoint = process.env.CUSTOM_VISION_ENDPOINT_URL;
+            const predictionKey = process.env.CUSTOM_VISION_PREDICTION_KEY;
+
+            const response = await fetch(endpoint, {
+                  method: "POST",
+                  headers: {
+                     "Prediction-Key": predictionKey,
+                     "Content-Type": "application/json"
+                  },
+                  body: JSON.stringify({ Url: imageUrl })
+            });
+
+            const results = await response.json();
+            return { jsonBody: results };
+         }
+      });
+    ```
+
+    ###### **Function 2: `predictFromFile`**
+    This function handles predictions when the user uploads an image from their gallery or camera. It forwards the raw image data.
+
+    ```javascript
+      import { app, HttpRequest, HttpResponseInit} from "@azure/functions";
+
+      app.http("predict-image", {
+         methods: ["POST"],
+         authLevel: "anonymous",
+         route: "predict/image",
+         handler: async (request: HttpRequest): Promise<HttpResponseInit> => {
+            const imageBuffer = await request.arrayBuffer();
+
+            if (!imageBuffer || imageBuffer.byteLength === 0) {
+                  return { status: 400, jsonBody: { error: "Image data is missing" } };
+            }
+
+            const endpoint = process.env.CUSTOM_VISION_ENDPOINT_IMAGE;
+            const predictionKey = process.env.CUSTOM_VISION_PREDICTION_KEY;
+
+            const response = await fetch(endpoint, {
+                  method: "POST",
+                  headers: {
+                     "Prediction-Key": predictionKey,
+                     "Content-Type": "application/octet-stream"
+                  },
+                  body: imageBuffer
+            });
+
+            const results = await response.json();
+            return { jsonBody: results };
+         }
+      });
+    ```
+
+
+4.  **Configure the Function App and Key Vault Connection:**
+    *   In your Function App, enable a **Managed Identity**.
+    *   Go to your Key Vault and grant this Managed Identity the "Key Vault Secrets User" role.
+    *   In the Function App's configuration, create application settings that reference the Key Vault secrets using the syntax `@Microsoft.KeyVault(SecretUri=...)`.
+
+5.  **Set up and Configure an App Registration in Microsoft Entra ID:** This registration defines the API you are protecting (your Azure Function) and configures the authentication flow for your client app.
+
+    **a. Expose the API:** This step defines a unique identifier for your API and creates permissions (scopes) that the client can request.
+    *   In the App Registration, navigate to the **Expose an API** section.
+    *   Set the **Application ID URI**. A common format is `api://<your-client-id>`.
+    *   Add a new scope. For example:
+        *   **Scope name:** `access_as_user`
+        *   **Who can consent?:** Admins and users
+        *   **Admin/User consent display name:** Access the Glass-Mug-Classifier API
+        *   **Admin/User consent description:** Allows the app to call the API on your behalf.
+
+    **b. Configure Redirect URIs:** This tells Microsoft's authentication service where to send the user back to after a successful login.
+    *   Navigate to the **Authentication** section and click "Add a platform".
+    *   Select **"Mobile and desktop applications"**.
+    *   Add the necessary Redirect URIs. For Expo development, these are critical and must match your environment exactly:
+        *   `exp://192.168.1.100:8081` (Example for **Expo Go**; the IP and port will match your local development machine).
+        *   `yourscheme://path` (For running **React Native** application).
+
+6.  **Configure Function App Authentication:** Secure the Function App's HTTP triggers by going to its "Authentication" settings and adding an Identity Provider. Configure it to use the App Registration you just created. This enforces that every API call must have a valid access token.
+
+7.  **Update the Client Configuration:** Update the environment variables in the React Native application to point to your new Azure Function URLs (for `predictFromUrl` and `predictFromFile`) and your new Entra ID configuration (Client ID, Tenant ID, and the API scope you created).
+
+---
+
+## 🧠 AI Assistance in Development
+
+AI tools (**ChatGPT 5** and **Gemini 2.5 Pro**) were utilized throughout the project, primarily as a learning aid alongside official documentation. They were invaluable for grasping complex Azure concepts like App Registrations, Managed Identities, Key Vault integration, and the intricacies of the **Microsoft Graph API**.
+
+However, a combination of factors pushed me to rely on AI more heavily than I would have preferred, particularly in the project's final stages. The steep learning curve of native development with its unique challenges, unexpected issues with UI component styling and behavior, the complexity of implementing **Microsoft Entra ID** authentication with **Microsoft Graph**, and intense deadline pressure all contributed to this.
+
+This increased reliance on AI-generated solutions unfortunately shows, at times, in the code's overall quality and readability. I am **not satisfied** with this outcome and aim to improve my workflow in future projects to ensure a higher standard of manually written and verified code, even under pressure.
+
+---
+
+## 💡 Personal Experience & Challenges
+
+This project was a significant and challenging learning experience, marking my first entry into native Android development. The transition from the web development world was substantial, as the native paradigm presented its own unique set of rules and problems.
+
+The primary challenge was the combination of a very tight final schedule and the complexity of the secure cloud backend. Configuring **Microsoft Entra ID** authentication and integrating the **Microsoft Graph API** for user data proved to be the most difficult and time-consuming tasks.
+
+Furthermore, the user interface required a complete rewrite late in development. Even with a new component library, I faced unexpected issues with certain UI components, which behaved differently than their web counterparts. While the core architecture is now functional and demonstrates a secure end-to-end solution, it's clear that **many aspects of the application still require polishing and refinement**.
+
+---
+
+## ⚠️ Known Issues
+
+-   The application currently has some known bugs, primarily related to **ScrollView behavior** in certain contexts.
+-   The overall UI/UX, while functional, requires further refinement and polishing to improve the user experience.
+
+---
+
+## 📋 To-Do List
+
+-   [ ] Add video demonstration
+-   [ ] Finalize README.md
+-   [ ] Fix known ScrollView issues
+-   [ ] Conduct a thorough UI/UX audit and implement improvements
+-   [ ] Refactor components for better reusability and maintainability
+-   [ ] Optimize API call performance and error handling
