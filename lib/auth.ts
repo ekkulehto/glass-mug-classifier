@@ -87,7 +87,7 @@ export async function clearTokens() {
 }
 
 export function useAuthRequest() {
-  const redirectUri = AuthSession.makeRedirectUri({native: 'glassmugclassifier://auth'});
+  const redirectUri = AuthSession.makeRedirectUri({scheme: 'glassmugclassifier', path: 'auth'});
   return AuthSession.useAuthRequest(
     {
       clientId: CLIENT_ID,
@@ -122,11 +122,13 @@ export async function getGraphAccessToken(): Promise<string | null> {
   if (!refreshToken) return null;
 
   try {
+    const relevantScopes = ["openid", "profile", "email", "User.Read", "offline_access"];
+    
     const graphTokenResponse = await AuthSession.refreshAsync(
       {
         clientId: CLIENT_ID,
         refreshToken,
-        scopes: ["User.Read", "offline_access"],
+        scopes: relevantScopes,
       },
       discovery
     );
