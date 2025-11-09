@@ -7,9 +7,7 @@ type Props = {
   label: string;
   theme?: 'primary';
   onPress?: () => void;
-  /** Täyttää vanhemman leveyden (esim. sama linja kuin Results-card) */
   fullWidth?: boolean;
-  /** Mahdollisuus ohittaa container-tyyli (esim. marginaalit) */
   containerStyle?: StyleProp<ViewStyle>;
   disabled?: boolean;
 };
@@ -68,7 +66,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     padding: 3,
-    alignSelf: 'stretch', // mahdollistaa venymisen
+    alignSelf: 'stretch',
   },
   block: {
     width: '100%',
