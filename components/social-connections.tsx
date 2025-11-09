@@ -3,12 +3,9 @@ import { Text } from '@/components/ui/text';
 import { useAuth } from "@/context/AuthContext";
 import { exchangeCodeForToken, useAuthRequest } from "@/lib/auth";
 import { cn } from '@/lib/utils';
-import * as WebBrowser from 'expo-web-browser';
 import { useColorScheme } from 'nativewind';
 import { useEffect } from "react";
 import { ActivityIndicator, Image, Platform, View } from 'react-native';
-
-WebBrowser.maybeCompleteAuthSession();
 
 const SOCIAL_CONNECTION_STRATEGIES = [
   {
