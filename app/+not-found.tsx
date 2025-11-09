@@ -1,27 +1,26 @@
-import { Stack } from "expo-router";
-import { View} from "react-native";
+import { Stack, Link } from "expo-router";
+import { View } from "react-native";
 import { useTheme } from "@react-navigation/native";
-import { Text } from '@/components/ui/text';
-import { showLoginSuccessToast } from "@/lib/toasts";
-import { useRef, useEffect } from "react";
+import { Text } from "@/components/ui/text";
+import { Button as UIButton } from "@/components/ui/button";
 
-export default function AuthCallback() {
+export default function NotFoundScreen() {
   const { colors } = useTheme();
-  
-    const fired = useRef(false);
-  
-    useEffect(() => {
-      if (fired.current) return;
-      fired.current = true;
-  
-      showLoginSuccessToast();
-    }, []);
-  
+
   return (
     <>
       <Stack.Screen options={{ headerShown: false }} />
-      <View className="flex-1 items-center justify-center" style={{backgroundColor: colors.background}}>
-        <Text style={{color: colors.primary}}>Finishing sign-in…</Text>
+      <View className="flex-1 items-center justify-center gap-4" style={{ backgroundColor: colors.background }}>
+        <Text className="text-sm font-semibold" style={{ color: colors.text }}>
+          The page you’re looking for wasn’t found.
+        </Text>
+
+        {/* RNR Button linkkinä takaisin päälayouttiin */}
+        <Link href="/(tabs)" asChild>
+          <UIButton size={'sm'}>
+            <Text>Go back to Home</Text>
+          </UIButton>
+        </Link>
       </View>
     </>
   );
