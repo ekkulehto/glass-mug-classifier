@@ -4,18 +4,26 @@ import { useTheme } from "@react-navigation/native";
 import type { LucideIcon } from "lucide-react-native";
 
 type Props = {
-  icon: LucideIcon;          // esim. Camera, User, Settings...
+  icon: LucideIcon;
   label: string;
   onPress?: () => void;
+  disabled?: boolean;
 };
 
-export default function IconButton({ icon: IconComp, label, onPress }: Props) {
+export default function IconButton({ icon: IconComp, label, onPress, disabled = false }: Props) {
   const { colors } = useTheme();
 
   return (
-    <Button onPress={onPress} className="flex-col items-center justify-center" style={{backgroundColor: colors.background}}>
-      <IconComp size={24} strokeWidth={1.3} color={colors?.primary ?? "#000"} />
-      <Text className="mt-2" style={{color: colors.primary}}>{label}</Text>
+    <Button
+      onPress={disabled ? undefined : onPress}
+      disabled={disabled}
+      className="flex-col items-center justify-center"
+      style={{ backgroundColor: colors.background }}
+      accessibilityRole="button"
+      accessibilityState={{ disabled }}
+    >
+      <IconComp size={24} strokeWidth={1.3} color={colors.text} />
+      <Text className="mt-2" style={{ color: colors.text }}>{label}</Text>
     </Button>
   );
 }
