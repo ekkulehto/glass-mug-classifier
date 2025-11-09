@@ -47,11 +47,13 @@
         {
           "android": {
             "gradleProperties": {
-              "org.gradle.jvmargs": "-Xmx4g -XX:MaxMetaspaceSize=1g -Dfile.encoding=UTF-8 -XX:+UseParallelGC",
-              "kotlin.daemon.jvmargs": "-Xmx2g -XX:MaxMetaspaceSize=1g",
-              "android.experimental.lint.maxHeapSize": "2048m",
-              "org.gradle.parallel": "true",
-              "org.gradle.configuration-cache": "true"
+              "org.gradle.jvmargs": "-Xmx6g -XX:MaxMetaspaceSize=1280m -Dfile.encoding=UTF-8 -XX:+UseG1GC",
+              "kotlin.daemon.jvmargs": "-Xmx4g -XX:MaxMetaspaceSize=1024m",
+              "android.experimental.lint.maxHeapSize": "3072m",
+              "org.gradle.parallel": "false",
+              "org.gradle.workers.max": "2",
+              "org.gradle.configuration-cache": "false",
+              "org.gradle.daemon": "false"
             }
           }
         }
@@ -61,7 +63,7 @@
       [
         "expo-navigation-bar",
         {
-          "backgroundColor": "hsl(0 0% 3.9%)"
+          "backgroundColor": "#000000"
         }
       ]
     ],

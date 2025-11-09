@@ -6,15 +6,29 @@
   "build": {
     "preview": {
       "android": {
-        "buildType": "apk"
+        "buildType": "apk",
+        "gradleCommand": ":app:assembleRelease -x lintVitalAnalyzeRelease -x lint"
+      },
+      "developmentClient": false,
+      "env": {
+        "JAVA_TOOL_OPTIONS": "-Xmx6g -XX:MaxMetaspaceSize=1280m -XX:+UseG1GC",
+        "GRADLE_OPTS": "-Xmx6g -XX:MaxMetaspaceSize=1280m",
+        "EX_DEV_CLIENT": "0",
+        "EAS_BUILD_PROFILE": "preview"
       }
     },
     "production": {
-      "autoIncrement": true
+      "autoIncrement": true,
+      "env": {
+        "EAS_BUILD_PROFILE": "production"
+      }
     },
     "development": {
       "developmentClient": true,
-      "distribution": "internal"
+      "distribution": "internal",
+      "env": {
+        "EAS_BUILD_PROFILE": "development"
+      }
     }
   },
   "submit": {
