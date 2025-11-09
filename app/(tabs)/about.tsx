@@ -108,9 +108,8 @@ export default function AboutScreen() {
           </AccordionTrigger>
           <AccordionContent className={`flex flex-col gap-4 text-balance pb-4`}>
             <Text className={BODY_CLASS}>
-              Both the splash screen icons and the main application icon were
-              generated using an <Text className="font-semibold">AI image generator</Text>, specifically based on the{' '}
-              <Text className="font-semibold">ChatGPT Sora</Text> model.
+              Both the main application icon and the splash screen assets were created with{" "}
+              <Text className="font-semibold">Android Studio’s Image Asset Studio</Text>.
             </Text>
           </AccordionContent>
         </AccordionItem>
