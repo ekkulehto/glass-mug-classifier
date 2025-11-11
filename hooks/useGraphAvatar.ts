@@ -3,7 +3,7 @@ import type { ImageSource } from "expo-image";
 
 const GRAPH = "https://graph.microsoft.com/v1.0";
 const PHOTO_META = `${GRAPH}/me/photo`;
-const PHOTO_48  = `${GRAPH}/me/photos/48x48/$value`;
+const PHOTO_240 = `${GRAPH}/me/photos/240x240/$value`;
 
 async function fetchPhotoEtag(accessToken: string): Promise<string | null> {
   const res = await fetch(PHOTO_META, {
@@ -50,7 +50,7 @@ export function useGraphAvatarSource(graphAccessToken: string | null) {
     const q = etag ? `?etag=${encodeURIComponent(etag)}` : "";
 
     return {
-      uri: `${PHOTO_48}${q}`,
+      uri: `${PHOTO_240}${q}`,
       headers: { Authorization: `Bearer ${graphAccessToken}` },
     };
   }, [graphAccessToken, hasPhoto, etag]);
