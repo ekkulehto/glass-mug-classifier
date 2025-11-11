@@ -1,6 +1,6 @@
 import * as ImagePicker from 'expo-image-picker';
 import React, { useLayoutEffect, useState } from 'react';
-import { ActivityIndicator, View } from 'react-native';
+import { ActivityIndicator, Pressable, View } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import { useNavigation } from 'expo-router';
 import { useHeaderHeight } from '@react-navigation/elements';
@@ -10,7 +10,7 @@ import { HelpGuideProvider, useHelpGuide } from '@/components/HelpGuide';
 
 import { predictFromFile, predictFromUrl, type CvPrediction } from '@/api/customVision';
 import Button from '@/components/Button';
-import { Button as UIButton } from '@/components/ui/button';
+
 import CircleButton from '@/components/CircleButton';
 import IconButton from '@/components/IconButton';
 import ImageViewer from '@/components/ImageViewer';
@@ -18,7 +18,7 @@ import Predictions from '@/components/Predictions';
 import { Text } from '@/components/ui/text';
 import UrlButton from '@/components/UrlButton';
 import { showChooseImageOrUrlFirstToast, showPredictionErrorToast } from '@/lib/toasts';
-import { Camera, BadgeQuestionMark } from 'lucide-react-native';
+import { Camera, CircleQuestionMark } from 'lucide-react-native';
 import { Icon } from '@/components/ui/icon';
 
 const PlaceholderImage = require('@/assets/images/background-image.png');
@@ -33,17 +33,20 @@ function HeaderBinder() {
   useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
-        <View className="ml-4">
-          <UIButton
-            variant="secondary"
-            size="icon"
-            className="size-10 rounded-full justify-center"
-            onPress={open}
-            accessibilityLabel="Open help"
-          >
-            <Icon as={BadgeQuestionMark} strokeWidth={1.1} color={colors.text} size={28} />
-          </UIButton>
-        </View>
+        <Pressable
+          onPress={open}
+          className="ml-4"
+          hitSlop={8}
+          accessibilityRole="button"
+          accessibilityLabel="Open help"
+        >
+          <Icon
+            as={CircleQuestionMark}
+            size={40}
+            strokeWidth={1.3}
+            color={colors.text}
+          />
+        </Pressable>
       ),
     });
   }, [navigation, colors.text, open]);
