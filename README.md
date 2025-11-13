@@ -12,7 +12,6 @@ A mobile application built with **React Native** and **Expo** to classify images
                      playsinline
                      width="360">
               </video>
-       <br/>
        <p align="center">
          <em>
            Placeholder and demo classification images sourced from Pixabay:
