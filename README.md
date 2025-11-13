@@ -15,15 +15,18 @@ A mobile application built with **React Native** and **Expo** to classify images
        <br/>
        <p align="center">
          <em>
-           Placeholder and demo classification images sourced from Pixabay:<br/>
-           <a href="https://pixabay.com/photos/mulled-wine-christmas-drink-6704928/">
-             Orange drink – photo by kaheig
-           </a><br/>
-           <a href="https://pixabay.com/photos/water-glass-liquid-wet-refreshment-3853492/">
-             Water in glass – photo by cocoparisienne
-           </a><br/>
+           Placeholder and demo classification images sourced from Pixabay:
+           <br/>
            <a href="https://pixabay.com/photos/mug-marshmallows-fox-leaves-autumn-8231225/">
              Fox mug with marshmallows – photo by Ylanite
+           </a>
+           <br/>
+           <a href="https://pixabay.com/photos/water-glass-liquid-wet-refreshment-3853492/">
+             Water in glass – photo by cocoparisienne
+           </a>
+           <br/>
+           <a href="https://pixabay.com/photos/mulled-wine-christmas-drink-6704928/">
+             Orange drink – photo by kaheig
            </a>
          </em>
        </p> 
