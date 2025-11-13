@@ -2,6 +2,9 @@
 
 A mobile application built with **React Native** and **Expo** to classify images of glasses and mugs. This app leverages a custom AI model trained with **Azure Custom Vision** and is supported by a secure backend built on **Azure Functions** with **Microsoft Entra ID** for authentication.
 
+<video src="./videos/demo.mp4" controls muted playsinline width="720"></video>
+
+
 ---
 
 ## 🔍 Core Features
