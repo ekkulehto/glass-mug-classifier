@@ -193,7 +193,7 @@ Consequently, if you run the application locally, you will be able to see the UI
 
       You will need to create two separate **HTTP Trigger** functions within your Function App. The easiest way to do this is using the [Azure Functions extension in Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-azurefunctions).
 
-      ###### **Function 1: `predictFromUrl`**
+      #### Function 1: `predictFromUrl`
       This function handles predictions when the user provides an image URL.
 
       ```javascript
@@ -229,7 +229,7 @@ Consequently, if you run the application locally, you will be able to see the UI
         });
       ```
 
-      ###### **Function 2: `predictFromFile`**
+      #### Function 2: `predictFromFile`
       This function handles predictions when the user uploads an image from their gallery or camera. It forwards the raw image data.
 
       ```javascript
@@ -318,8 +318,8 @@ Furthermore, the user interface required a complete rewrite late in development.
 ## ⚠️ Known Issues
 
 -   The application currently has some known bugs, primarily related to **ScrollView behavior** in certain contexts.
--   App crashes sometimes on first login.
--   The overall UI/UX, while functional, requires further refinement and polishing to improve the user experience.
+-   The app may occasionally crash on the first login after installation.
+-   The overall UI/UX is functional but still requires further refinement and polishing to improve the user experience.
 
 ---
 
@@ -328,7 +328,7 @@ Furthermore, the user interface required a complete rewrite late in development.
 -   [x] Add video demonstration
 -   [ ] Finalize README.md
 -   [ ] Fix known ScrollView issues
--   [ ] Fix known login crash -issues
+-   [ ] Investigate and fix occasional first-login crash
 -   [ ] Conduct a thorough UI/UX audit and implement improvements
 -   [ ] Refactor components for better reusability and maintainability
 -   [ ] Optimize API call performance and error handling
