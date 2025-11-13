@@ -135,13 +135,13 @@ The classification model was trained on a custom dataset compiled by the develop
 
 <br>
 
-<p align="left">
+<p align="center">
   <img src="images/dataset_collage.jpg" alt="dataset-collage" width="80%">
   <br>
   <em>A collage of the training dataset.</em>
 </p>
 
-<p align="left">
+<p align="center">
   <img src="images/custom_vision.png" alt="dataset-collage" width="80%">
   <br>
   <em>Custom Vision model results.</em>
@@ -326,7 +326,7 @@ Furthermore, the user interface required a complete rewrite late in development.
 ## 📋 To-Do List
 
 -   [x] Add video demonstration
--   [ ] Finalize README.md
+-   [x] Finalize README.md
 -   [ ] Fix known ScrollView issues
 -   [ ] Investigate and fix occasional first-login crash
 -   [ ] Conduct a thorough UI/UX audit and implement improvements
