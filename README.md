@@ -12,7 +12,6 @@ A mobile application built with **React Native** and **Expo** to classify images
                      playsinline
                      width="360">
               </video>
-       </div>
        <br/>
        <p align="center">
          <em>
@@ -27,8 +26,8 @@ A mobile application built with **React Native** and **Expo** to classify images
              Fox mug with marshmallows – photo by Ylanite
            </a>
          </em>
-       </p>
-       
+       </p> 
+       </div>
 </details>
 
 ---
