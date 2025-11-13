@@ -3,7 +3,7 @@
 A mobile application built with **React Native** and **Expo** to classify images of glasses and mugs. This app leverages a custom AI model trained with **Azure Custom Vision** and is supported by a secure backend built on **Azure Functions** with **Microsoft Entra ID** for authentication.
 
 <details>
-  <summary>▶ Watch demo</summary>
+  <summary>Watch demo</summary>
        <br/>
        <div align="center">
               <video src="https://github.com/user-attachments/assets/de6c4db8-0e53-4615-9a1d-45d479a9622a"
@@ -135,13 +135,13 @@ The classification model was trained on a custom dataset compiled by the develop
 
 <br>
 
-<p align="center">
+<p align="left">
   <img src="images/dataset_collage.jpg" alt="dataset-collage" width="80%">
   <br>
   <em>A collage of the training dataset.</em>
 </p>
 
-<p align="center">
+<p align="left">
   <img src="images/custom_vision.png" alt="dataset-collage" width="80%">
   <br>
   <em>Custom Vision model results.</em>
@@ -174,119 +174,124 @@ The entire backend infrastructure is secured using **Microsoft Entra ID**, which
 
 Consequently, if you run the application locally, you will be able to see the UI, but any action that requires backend communication (i.e., logging in and submitting a photo for classification) **will result in an authentication failure**.
 
-### How to Replicate the Setup
-
-To run this project with full functionality, you would need to create and configure your own backend infrastructure on Microsoft Azure. This would involve the following key steps:
-
-1.  **Deploy a Custom Vision Model:** Train and publish your own classification model to get a `Prediction-Key` and two endpoint URLs (one for image URLs, one for file uploads).
-
-2.  **Create an Azure Key Vault:** This service will securely store your secrets. Add the following three secrets to your Key Vault:
-    *   `CustomVisionPredictionKey`: The `Prediction-Key` from your model.
-    *   `CustomVisionEndpointUrl`: The prediction endpoint for image URLs.
-    *   `CustomVisionEndpointFile`: The prediction endpoint for direct image file uploads.
-
-3.  **Create and Deploy Azure Functions:** The Function App serves as a secure intermediary (proxy) that hides your Custom Vision keys from the client application. The client calls your functions, which then securely call the Custom Vision API using the keys from Key Vault.
-
-    You will need to create two separate **HTTP Trigger** functions within your Function App. The easiest way to do this is using the [Azure Functions extension in Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-azurefunctions).
-
-    ###### **Function 1: `predictFromUrl`**
-    This function handles predictions when the user provides an image URL.
-
-    ```javascript
-      import { app, HttpRequest, HttpResponseInit} from "@azure/functions";
-
-      app.http("predict-url", {
-         methods: ["POST"],
-         authLevel: "anonymous",
-         route: "predict/url",
-         handler: async (request: HttpRequest): Promise<HttpResponseInit> => {
-            const body: any = await request.json();
-            const imageUrl = body.url;
-
-            if (!imageUrl) {
-                  return { status: 400, jsonBody: { error: "URL is missing" } };
-            }
-
-            const endpoint = process.env.CUSTOM_VISION_ENDPOINT_URL;
-            const predictionKey = process.env.CUSTOM_VISION_PREDICTION_KEY;
-
-            const response = await fetch(endpoint, {
-                  method: "POST",
-                  headers: {
-                     "Prediction-Key": predictionKey,
-                     "Content-Type": "application/json"
-                  },
-                  body: JSON.stringify({ Url: imageUrl })
-            });
-
-            const results = await response.json();
-            return { jsonBody: results };
-         }
-      });
-    ```
-
-    ###### **Function 2: `predictFromFile`**
-    This function handles predictions when the user uploads an image from their gallery or camera. It forwards the raw image data.
-
-    ```javascript
-      import { app, HttpRequest, HttpResponseInit} from "@azure/functions";
-
-      app.http("predict-image", {
-         methods: ["POST"],
-         authLevel: "anonymous",
-         route: "predict/image",
-         handler: async (request: HttpRequest): Promise<HttpResponseInit> => {
-            const imageBuffer = await request.arrayBuffer();
-
-            if (!imageBuffer || imageBuffer.byteLength === 0) {
-                  return { status: 400, jsonBody: { error: "Image data is missing" } };
-            }
-
-            const endpoint = process.env.CUSTOM_VISION_ENDPOINT_IMAGE;
-            const predictionKey = process.env.CUSTOM_VISION_PREDICTION_KEY;
-
-            const response = await fetch(endpoint, {
-                  method: "POST",
-                  headers: {
-                     "Prediction-Key": predictionKey,
-                     "Content-Type": "application/octet-stream"
-                  },
-                  body: imageBuffer
-            });
-
-            const results = await response.json();
-            return { jsonBody: results };
-         }
-      });
-    ```
+<details>
+  <summary>How to Replicate the Setup</summary>
 
 
-4.  **Configure the Function App and Key Vault Connection:**
-    *   In your Function App, enable a **Managed Identity**.
-    *   Go to your Key Vault and grant this Managed Identity the "Key Vault Secrets User" role.
-    *   In the Function App's configuration, create application settings that reference the Key Vault secrets using the syntax `@Microsoft.KeyVault(SecretUri=...)`.
+  ### Steps
 
-5.  **Set up and Configure an App Registration in Microsoft Entra ID:** This registration defines the API you are protecting (your Azure Function) and configures the authentication flow for your client app.
+  To run this project with full functionality, you would need to create and configure your own backend infrastructure on Microsoft Azure. This would involve the following key steps:
 
-    **a. Expose the API:** This step defines a unique identifier for your API and creates permissions (scopes) that the client can request.
-    *   In the App Registration, navigate to the **Expose an API** section.
-    *   Set the **Application ID URI**. A common format is `api://<your-client-id>`.
-    *   Add a new scope. For example:
-        *   **Scope name:** `access_as_user`
-        *   **Who can consent?:** Admins and users
-        *   **Admin/User consent display name:** Access the Glass-Mug-Classifier API
-        *   **Admin/User consent description:** Allows the app to call the API on your behalf.
+  1.  **Deploy a Custom Vision Model:** Train and publish your own classification model to get a `Prediction-Key` and two endpoint URLs (one for image URLs, one for file uploads).
 
-    **b. Configure Redirect URIs:** This tells Microsoft's authentication service where to send the user back to after a successful login.
-    *   Navigate to the **Authentication** section and click "Add a platform".
-    *   Select **"Mobile and desktop applications"**.
-    *   Add the necessary Redirect URIs. For Expo development, these are critical and must match your environment exactly:
-        *   `exp://192.168.1.100:8081` (Example for **Expo Go**; the IP and port will match your local development machine).
-        *   `yourscheme://path` (For running **React Native** application).
+  2.  **Create an Azure Key Vault:** This service will securely store your secrets. Add the following three secrets to your Key Vault:
+      *   `CustomVisionPredictionKey`: The `Prediction-Key` from your model.
+      *   `CustomVisionEndpointUrl`: The prediction endpoint for image URLs.
+      *   `CustomVisionEndpointFile`: The prediction endpoint for direct image file uploads.
 
-6.  **Configure Function App Authentication:** Secure the Function App's HTTP triggers by going to its "Authentication" settings and adding an Identity Provider. Configure it to use the App Registration you just created. This enforces that every API call must have a valid access token.
+  3.  **Create and Deploy Azure Functions:** The Function App serves as a secure intermediary (proxy) that hides your Custom Vision keys from the client application. The client calls your functions, which then securely call the Custom Vision API using the keys from Key Vault.
 
-7.  **Update the Client Configuration:** Update the environment variables in the React Native application to point to your new Azure Function URLs (for `predictFromUrl` and `predictFromFile`) and your new Entra ID configuration (Client ID, Tenant ID, and the API scope you created).
+      You will need to create two separate **HTTP Trigger** functions within your Function App. The easiest way to do this is using the [Azure Functions extension in Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-azurefunctions).
+
+      ###### **Function 1: `predictFromUrl`**
+      This function handles predictions when the user provides an image URL.
+
+      ```javascript
+        import { app, HttpRequest, HttpResponseInit} from "@azure/functions";
+
+        app.http("predict-url", {
+          methods: ["POST"],
+          authLevel: "anonymous",
+          route: "predict/url",
+          handler: async (request: HttpRequest): Promise<HttpResponseInit> => {
+              const body: any = await request.json();
+              const imageUrl = body.url;
+
+              if (!imageUrl) {
+                    return { status: 400, jsonBody: { error: "URL is missing" } };
+              }
+
+              const endpoint = process.env.CUSTOM_VISION_ENDPOINT_URL;
+              const predictionKey = process.env.CUSTOM_VISION_PREDICTION_KEY;
+
+              const response = await fetch(endpoint, {
+                    method: "POST",
+                    headers: {
+                      "Prediction-Key": predictionKey,
+                      "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ Url: imageUrl })
+              });
+
+              const results = await response.json();
+              return { jsonBody: results };
+          }
+        });
+      ```
+
+      ###### **Function 2: `predictFromFile`**
+      This function handles predictions when the user uploads an image from their gallery or camera. It forwards the raw image data.
+
+      ```javascript
+        import { app, HttpRequest, HttpResponseInit} from "@azure/functions";
+
+        app.http("predict-image", {
+          methods: ["POST"],
+          authLevel: "anonymous",
+          route: "predict/image",
+          handler: async (request: HttpRequest): Promise<HttpResponseInit> => {
+              const imageBuffer = await request.arrayBuffer();
+
+              if (!imageBuffer || imageBuffer.byteLength === 0) {
+                    return { status: 400, jsonBody: { error: "Image data is missing" } };
+              }
+
+              const endpoint = process.env.CUSTOM_VISION_ENDPOINT_IMAGE;
+              const predictionKey = process.env.CUSTOM_VISION_PREDICTION_KEY;
+
+              const response = await fetch(endpoint, {
+                    method: "POST",
+                    headers: {
+                      "Prediction-Key": predictionKey,
+                      "Content-Type": "application/octet-stream"
+                    },
+                    body: imageBuffer
+              });
+
+              const results = await response.json();
+              return { jsonBody: results };
+          }
+        });
+      ```
+
+
+  4.  **Configure the Function App and Key Vault Connection:**
+      *   In your Function App, enable a **Managed Identity**.
+      *   Go to your Key Vault and grant this Managed Identity the "Key Vault Secrets User" role.
+      *   In the Function App's configuration, create application settings that reference the Key Vault secrets using the syntax `@Microsoft.KeyVault(SecretUri=...)`.
+
+  5.  **Set up and Configure an App Registration in Microsoft Entra ID:** This registration defines the API you are protecting (your Azure Function) and configures the authentication flow for your client app.
+
+      **a. Expose the API:** This step defines a unique identifier for your API and creates permissions (scopes) that the client can request.
+      *   In the App Registration, navigate to the **Expose an API** section.
+      *   Set the **Application ID URI**. A common format is `api://<your-client-id>`.
+      *   Add a new scope. For example:
+          *   **Scope name:** `access_as_user`
+          *   **Who can consent?:** Admins and users
+          *   **Admin/User consent display name:** Access the Glass-Mug-Classifier API
+          *   **Admin/User consent description:** Allows the app to call the API on your behalf.
+
+      **b. Configure Redirect URIs:** This tells Microsoft's authentication service where to send the user back to after a successful login.
+      *   Navigate to the **Authentication** section and click "Add a platform".
+      *   Select **"Mobile and desktop applications"**.
+      *   Add the necessary Redirect URIs. For Expo development, these are critical and must match your environment exactly:
+          *   `exp://192.168.1.100:8081` (Example for **Expo Go**; the IP and port will match your local development machine).
+          *   `yourscheme://path` (For running **React Native** application).
+
+  6.  **Configure Function App Authentication:** Secure the Function App's HTTP triggers by going to its "Authentication" settings and adding an Identity Provider. Configure it to use the App Registration you just created. This enforces that every API call must have a valid access token.
+
+  7.  **Update the Client Configuration:** Update the environment variables in the React Native application to point to your new Azure Function URLs (for `predictFromUrl` and `predictFromFile`) and your new Entra ID configuration (Client ID, Tenant ID, and the API scope you created).
+</details>
 
 ---
 
@@ -313,15 +318,17 @@ Furthermore, the user interface required a complete rewrite late in development.
 ## ⚠️ Known Issues
 
 -   The application currently has some known bugs, primarily related to **ScrollView behavior** in certain contexts.
+-   App crashes sometimes on first login.
 -   The overall UI/UX, while functional, requires further refinement and polishing to improve the user experience.
 
 ---
 
 ## 📋 To-Do List
 
--   [ ] Add video demonstration
+-   [x] Add video demonstration
 -   [ ] Finalize README.md
 -   [ ] Fix known ScrollView issues
+-   [ ] Fix known login crash -issues
 -   [ ] Conduct a thorough UI/UX audit and implement improvements
 -   [ ] Refactor components for better reusability and maintainability
 -   [ ] Optimize API call performance and error handling
