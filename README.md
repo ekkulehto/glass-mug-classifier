@@ -168,9 +168,8 @@ npx expo start
 
 ### ⚠️ Important Note on Functionality
 
-This repository is intended as a portfolio piece and is **not runnable out-of-the-box**. The entire backend is secured with a **Microsoft Entra ID** tenant configured to grant access **only to the developer's user account**. This is a deliberate security measure to protect cloud resources and API keys.
-
-The entire backend infrastructure is secured using **Microsoft Entra ID**, which has been configured to **only permit access for the developer's specific user account**. This was a deliberate design choice to protect the cloud resources and API keys.
+This repository is intended as a portfolio piece and is **not runnable out of the box**.  
+The backend is secured with **Microsoft Entra ID** and configured to grant access **only to the developer's account**. This is a deliberate security measure to protect cloud resources and API keys.
 
 Consequently, if you run the application locally, you will be able to see the UI, but any action that requires backend communication (i.e., logging in and submitting a photo for classification) **will result in an authentication failure**.
 
@@ -297,21 +296,17 @@ Consequently, if you run the application locally, you will be able to see the UI
 
 ## 🧠 AI Assistance in Development
 
-AI tools (**ChatGPT 5** and **Gemini 2.5 Pro**) were utilized throughout the project, primarily as a learning aid alongside official documentation. They were invaluable for grasping complex Azure concepts like App Registrations, Managed Identities, Key Vault integration, and the intricacies of the **Microsoft Graph API**.
+AI tools (**ChatGPT** and **Gemini**) were used throughout the project as a complement to official documentation, especially for understanding Azure concepts such as App Registrations, Managed Identities, Key Vault integration, and the Microsoft Graph API.
 
-However, a combination of factors pushed me to rely on AI more heavily than I would have preferred, particularly in the project's final stages. The steep learning curve of native development with its unique challenges, unexpected issues with UI component styling and behavior, the complexity of implementing **Microsoft Entra ID** authentication with **Microsoft Graph**, and intense deadline pressure all contributed to this.
+Due to the steep learning curve of native development, the complexity of secure cloud authentication, and tight deadlines, I relied on AI assistance more heavily than I would in an ideal scenario. While this occasionally shows in the code’s structure and readability, the core architecture and decisions remain my own.
 
-This increased reliance on AI-generated solutions unfortunately shows, at times, in the code's overall quality and readability. I am **not satisfied** with this outcome and aim to improve my workflow in future projects to ensure a higher standard of manually written and verified code, even under pressure.
+Going forward, my goal is to use AI more as a structured pair-programmer: focusing on improving code quality, maintainability, and testing practices, rather than just unblocking problems under time pressure.
 
 ---
 
 ## 💡 Personal Experience & Challenges
 
-This project was a significant and challenging learning experience, marking my first entry into native Android development. The transition from the web development world was substantial, as the native paradigm presented its own unique set of rules and problems.
-
-The primary challenge was the combination of a very tight final schedule and the complexity of the secure cloud backend. Configuring **Microsoft Entra ID** authentication and integrating the **Microsoft Graph API** for user data proved to be the most difficult and time-consuming tasks.
-
-Furthermore, the user interface required a complete rewrite late in development. Even with a new component library, I faced unexpected issues with certain UI components, which behaved differently than their web counterparts. While the core architecture is now functional and demonstrates a secure end-to-end solution, it's clear that **many aspects of the application still require polishing and refinement**.
+The biggest challenge was the combination of a tight final schedule and the complexity of a secure cloud backend. Configuring **Microsoft Entra ID** authentication and integrating the **Microsoft Graph API** for user data were the most time-consuming parts.
 
 ---
 
